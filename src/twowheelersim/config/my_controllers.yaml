@@ -1,0 +1,30 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100
+    use_sim_time: true
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    diff_cont:
+      type: diff_drive_controller/DiffDriveController
+
+diff_cont:
+  ros__parameters:
+    use_sim_time: true
+    publish_rate: 50.0
+    base_frame_id: base_link
+    odom_frame_id: odom
+    enable_odom_tf: true
+    left_wheel_names: [left_wheel_joint]
+    right_wheel_names: [right_wheel_joint]
+    wheel_separation: 0.35
+    wheel_radius: 0.05
+    use_stamped_vel: false
+    cmd_vel_timeout: 0.5
+    linear.x.max_velocity: 0.25
+    linear.x.max_acceleration: 0.2
+    linear.x.max_deceleration: -0.3
+    angular.z.max_velocity: 0.8
+    angular.z.max_acceleration: 0.8
+    angular.z.max_deceleration: -0.8
