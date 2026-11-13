@@ -13,14 +13,30 @@ source install/setup.bash
 ros2 launch twowheelersim launch_sim.launch.py
 ```
 
-The `ros2 control` command is provided by the `ros2controlcli` dependency and is useful for checking that the controllers are active.
-
 The launch starts Gazebo, spawns the robot, starts the joint state broadcaster and differential drive controller, and opens RViz.
 
-Drive the robot by publishing `geometry_msgs/msg/Twist` commands:
+## Drive with keyboard teleop
+
+Keep the simulation running in the first terminal. Open a second terminal, source ROS and the workspace, and install the keyboard teleop package if it is not installed already:
 
 ```bash
-ros2 topic pub --rate 10 /diff_cont/cmd_vel_unstamped geometry_msgs/msg/Twist "{linear: {x: 0.2}, angular: {z: 0.0}}"
+source /opt/ros/jazzy/setup.bash
+source ~/two_wheeler_ws/twowheelersim/install/setup.bash
+sudo apt install ros-jazzy-teleop-twist-keyboard
+```
+
+Run teleop and remap its `cmd_vel` output to the differential drive controller's command topic:
+
+```bash
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=/diff_cont/cmd_vel_unstamped
+```
+
+Click the terminal running teleop so it receives key presses. Use `i` to move forward, `,` to reverse, `j` and `l` to turn, and `k` to stop. The controller limits forward speed to 0.25 m/s and ramps acceleration for smoother starts.
+
+The `ros2 control` command is provided by the `ros2controlcli` dependency. Check that the controllers are active with:
+
+```bash
+ros2 control list_controllers
 ```
 
 ## View the model without Gazebo
