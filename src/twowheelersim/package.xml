@@ -4,7 +4,7 @@
   <name>twowheelersim</name>
   <version>0.0.0</version>
   <description>Basic two-wheel robot simulation using ROS 2 control and Gazebo Harmonic.</description>
-  <maintainer email="my_email@email.com">Josh Newans</maintainer>
+  <maintainer email="naveen.p@mistralsolutions.com">mistral</maintainer>
   <license>TODO: License declaration</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
