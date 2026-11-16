@@ -14,6 +14,9 @@ def generate_launch_description():
     xacro_file = os.path.join(package_share, 'description', 'robot.urdf.xacro')
     default_world = os.path.join(package_share, 'worlds', 'empty.world')
     rviz_config = os.path.join(package_share, 'config', 'view_bot.rviz')
+    sensor_bridge_config = os.path.join(
+        package_share, 'config', 'gz_sensor_bridge.yaml'
+    )
 
     world = LaunchConfiguration('world')
     robot_description = Command([
@@ -53,6 +56,16 @@ def generate_launch_description():
         output='screen',
     )
 
+    sensor_bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        name='sensor_bridge',
+        arguments=[
+            '--ros-args', '-p', f'config_file:={sensor_bridge_config}',
+        ],
+        output='screen',
+    )
+
     rviz = Node(
         package='rviz2',
         executable='rviz2',
@@ -76,6 +89,7 @@ def generate_launch_description():
         ),
         gazebo,
         clock_bridge,
+        sensor_bridge,
         robot_state_publisher,
         rviz,
         spawn_model,

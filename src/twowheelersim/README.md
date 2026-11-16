@@ -15,6 +15,22 @@ ros2 launch twowheelersim launch_sim.launch.py
 
 The launch starts Gazebo, spawns the robot, starts the joint state broadcaster and differential drive controller, and opens RViz.
 
+## IMU and GPS data
+
+The robot model includes a 100 Hz IMU and a 10 Hz GPS sensor. `ros_gz_bridge` exposes their Gazebo data as ROS 2 sensor messages:
+
+- `/imu/data` (`sensor_msgs/msg/Imu`), with frame `imu_link`
+- `/gps/fix` (`sensor_msgs/msg/NavSatFix`), with frame `gps_link`
+
+Check that each sensor is publishing while the simulation is running:
+
+```bash
+ros2 topic echo /imu/data --once
+ros2 topic echo /gps/fix --once
+```
+
+The GPS coordinates are based on the spherical-coordinate origin in `worlds/empty.world`. The default origin is latitude and longitude 0; change it there to match the location you want to simulate.
+
 ## Drive with keyboard teleop
 
 Keep the simulation running in the first terminal. Open a second terminal, source ROS and the workspace, and install the keyboard teleop package if it is not installed already:
